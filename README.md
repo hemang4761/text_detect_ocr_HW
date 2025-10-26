@@ -1,17 +1,17 @@
-Project Title: Large Language Models and OCR-Text Detection to Improve Educational Independence and Accessibility For Students With Learning Impairments 
+**Project Title**: Large Language Models and OCR-Text Detection to Improve Educational Independence and Accessibility For Students With Learning Impairments 
 Category: Computer Science
 Cover Image:
 
-Introduction:
+**Introduction**:
 Many young students with impairments, both physical and cognitive, face significant challenges in education. Physical disabilities, such as visual impairments or difficulties with neural information processing, can hinder fundamental tasks like text recognition and written composition. For instance, locating specific content in a textbook or conducting textual analysis can become cognitively demanding. Neurodevelopmental disorders, such as ADHD, further complicate learning by impairing executive functions, such as attention regulation and working memory, thus hindering the development of a robust educational foundation. This research aims to address these barriers by developing an AI-powered assistive technology integrating Optical Character Recognition (OCR) and customizable Large Language Model (LLM) parameters. These systems will be tailored to individual learning profiles, enabling students to engage with educational materials through multimodal interaction effectively. It is proven that large language models have the capacity to aid in education,  with a recent study revealing ChatGPT’s capabilities in “generating logically consistent answers across disciplines, balancing both depth and breadth” (Wang et. al). The societal impact of this project lies in its potential to advance educational equity and accessibility by empowering young students with disabilities to achieve their academic and personal potential. Furthermore, this project aims to increase independence and self-determination, two fundamental aspects of achieving a high quality of life for people with disabilities (Cegarra et al.).
 
-Supplies: 
+**Supplies**: 
 Pi Camera2 (for text detection via OCR)
 Raspberry Pi 5
 OpenAI API Key
 Sample educational materials
 
-Step 1: Code
+**Step 1: Code**
 Imports:
 from openai import OpenAI
 import cv2
