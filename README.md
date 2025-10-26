@@ -12,71 +12,72 @@ OpenAI API Key
 Sample educational materials
 
 **Step 1: Code**
-Imports:
-from openai import OpenAI
-import cv2
-import time
-from picamera2 import Picamera2, Preview
-import pytesseract
-from pytesseract import Output
-import argparse 
-
-
-  client = OpenAI()
-  net = cv2.dnn.readNet('frozen_east_text_detection.pb')
+  Imports:
+    
+    from openai import OpenAI
+    import cv2
+    import time
+    from picamera2 import Picamera2, Preview
+    import pytesseract
+    from pytesseract import Output
+    import argparse 
+    
+    
+    client = OpenAI()
+    net = cv2.dnn.readNet('frozen_east_text_detection.pb')
 
 Using pip or alternative python package installers, install the libraries for openai, openCV, pytesseract, picamera2, and argparse on your Raspberry Pi. It is recommended that you install these libraries to a virtual environment. Then import the libraries as shown above. Note that to use the OpenAI library, you must have access to an api key which can be created on platform.openai.com. You can purchase API tokens for a relatively cheap amount depending on the model. For these purposes, GPT 4o-mini was used. Generate and store your API Key in a safe location. The last statement sets up the pretrained text detection algorithm. This model must be downloaded from the internet. 
 
 Capturing the photo: 
 
 
-  picam2 = Picamera2()
+    picam2 = Picamera2()
 
 
-  camera_config = picam2.create_preview_configuration()
-  picam2.configure(camera_config)
+    camera_config = picam2.create_preview_configuration()
+    picam2.configure(camera_config)
 
 
-  picam2.start_preview(Preview.QTGL)
-  picam2.start()
+    picam2.start_preview(Preview.QTGL)
+    picam2.start()
 
 
-  time.sleep(2)
+    time.sleep(2)
 
 
-  frame = picam2.capture_array()
-  cv2.imwrite("captured_image.jpg", frame)
+    frame = picam2.capture_array()
+    cv2.imwrite("captured_image.jpg", frame)
 
 
-  picam2.stop()
-  picam2.close()
-
+    picam2.stop()
+    picam2.close()
+  
 Connect your PiCamera2 to your Raspberry Pi. This code initializes the camera as an object, sets up a preview configuration, and starts the preview using the QTGL renderer. It then captures a frame after a short delay, saves it as "captured_image.jpg" using OpenCV, and finally stops and closes the camera to release resources.
 
 
 
 
 
-  ap = argparse.ArgumentParser()
-  ap.add_argument("-i", "--image", help="/captured_image.jpg")
-  ap.add_argument("-c", "--min-conf", type=int, default=0,
+    ap = argparse.ArgumentParser()
+    ap.add_argument("-i", "--image", help="/captured_image.jpg")
+    ap.add_argument("-c", "--min-conf", type=int, default=0,
      help="minimum confidence value to filter weak text detection")
-  args = vars(ap.parse_args())
+    args = vars(ap.parse_args())
 
 
 
 
-  image = cv2.imread("captured_image.jpg")
+    image = cv2.imread("captured_image.jpg")
 
 
-  rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-  results = pytesseract.image_to_data(rgb, output_type=Output.DICT)
+    rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    results = pytesseract.image_to_data(rgb, output_type=Output.DICT)
 
 
-  final = ""
+    final = ""
 
 
-  for i in range(0, len(results["text"])):
+    for i in range(0, len(results["text"])):
      x = results["left"][i]
      y = results["top"][i]
      w = results["width"][i]
@@ -99,12 +100,12 @@ Connect your PiCamera2 to your Raspberry Pi. This code initializes the camera as
          cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX,
            1.2, (0, 0, 255), 3)
   # output image
-  cv2.imshow("Image", image)
-  print("")
-  print("Final: ",final)
-
-
-  cv2.destroyAllWindows()
+    cv2.imshow("Image", image)
+    print("")
+    print("Final: ",final)
+  
+  
+    cv2.destroyAllWindows()
 
 
 
@@ -112,17 +113,17 @@ This Python performs the Optical Character Recognition (OCR) on the captured ima
 
 
 
-  import openai
-
-
-  client = openai.Client()
-
-
-  while True:
-     user_input = input("Enter your question (or type 'quit' to exit): ")
-     if user_input.lower() == 'quit':
-         print("Goodbye!")
-         break
+    import openai
+  
+  
+    client = openai.Client()
+  
+  
+    while True:
+       user_input = input("Enter your question (or type 'quit' to exit): ")
+       if user_input.lower() == 'quit':
+           print("Goodbye!")
+           break
 
 
      completion = client.chat.completions.create(
@@ -131,10 +132,10 @@ This Python performs the Optical Character Recognition (OCR) on the captured ima
            {"role": "system", "content": "You are a tutor. Your goal is to best assist the user, in a concise way, that helps them with their homework. This student likely has a learning impairment. Assume they are a 1st grader with some form of an attention deficit.             Provide concise answers, be patient, and use words in an understandable manner. Also do not use latex, use symbols like '/' and '*' instead. You will be inputted with text following this blurb as well, text that is scanned by the user and sent to you.                 Make sure to account for errors in text detection. You are receiving the prompt now: \n" + final},
            {"role": "user", "content": user_input}
        ]
-   )
+     )
 
 
-   print(completion.choices[0].message.content)
+     print(completion.choices[0].message.content)
 
 This portion of the code loads the text information from the image into a gpt 4o mini prompt alongside contextual information that the chatbot can use. This context can be altered according to the needs of the individual. Until the user decides to quit, they can interact with the chatbot continually. 
 
