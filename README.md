@@ -99,7 +99,8 @@ Connect your PiCamera2 to your Raspberry Pi. This code initializes the camera as
          cv2.rectangle(image, (x, y), (x + w, y + h), (0, 255, 0), 2)
          cv2.putText(image, text, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX,
            1.2, (0, 0, 255), 3)
-  # output image
+           
+    # output image
     cv2.imshow("Image", image)
     print("")
     print("Final: ",final)
